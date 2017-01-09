@@ -30,6 +30,8 @@ commands = [
   'ping: Ping a host',
   'users_system: Shows logs',
   'power_off: Shutdown the remote machine',
+  'move: Move a file/directory to another directory',
+  'copy: Copy a file to a directory',
   'help: Show commands'
 ]
 
@@ -37,6 +39,21 @@ def command_execution(user_action):
 
   if 'help' == user_action.lower():
     show_commands()
+
+  if 'copy' == user_action.lower():
+    command = "cp "
+    what = raw_input('What: ')
+    to_dir = raw_input('To: ')
+    (stdin, stdout, stderr) = s.exec_command(command+" "+what+" "+to_dir)
+    print stdout.read()
+
+
+  if 'move' == user_action.lower():
+    command = "mv "
+    what = raw_input('What: ')
+    to_dir = raw_input('To: ')
+    (stdin, stdout, stderr) = s.exec_command(command+" "+what+" "+to_dir)
+    print stdout.read()
 
   if 'ls' == user_action.lower():
     command = "ls"
@@ -61,7 +78,7 @@ def command_execution(user_action):
     print stdout.read()
 
   if 'ping' == user_action.lower():
-    ip_ping = raw_input('The IP for make a PING: ')
+    ip_ping = raw_input('The IP to make PING: ')
     command = "ping " + ip_ping
     (stdin, stdout, stderr) = s.exec_command(command)
     print stdout.read()
