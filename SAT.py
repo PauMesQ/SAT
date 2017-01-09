@@ -54,10 +54,10 @@ class welcome():
 
 class data_connect():
 
-	ip = 'localhost' #The ip of remote server
-	port = 22 #The port of the remote server
+	ip = '192.168.1.100' #The ip of remote server
+	port = 2222 #The port of the remote server
 	user = "root" #The username for make connection
-	passw = '' #Password for make connection in base64
+	passw = 'YWRtaW4=' #Password for make connection in base64
 	passw_decode = passw.decode('base64')
 
 
@@ -71,6 +71,14 @@ class make_connection():
 
 
 def command_execution():
+
+	if 'reboot' == welcome.user_action.lower():
+		command = "reboot"
+		
+		make_connection.channel_connection.exec_command(""+command) #Execute commmand
+		output = make_connection.channel_connection.makefile('rb, -1').readlines() #Read the lines with paramiko
+		print output
+
 
 	if 'view_logs' == welcome.user_action.lower(): #For execute command
 		command = "pwd"
@@ -91,19 +99,19 @@ def command_execution():
 		output = make_connection.channel_connection.makefile('rb, -1').readlines()
 		print output
 
-	if "ram_cpu" == user_action.lower():
+	if "ram_cpu" == welcome.user_action.lower():
 		command = "top"
 		make_connection.channel_connection.exec_command(""+command) #Execute commmand
 		output = make_connection.channel_connection.makefile('rb, -1').readlines() #Read the lines with paramiko
 		print output # Print the output of the command execution
 
-	if "power_on_system" == user_action.lower():
+	if "power_on_system" == welcome.user_action.lower():
 		command = "who -b"
 		make_connection.channel_connection.exec_command(""+command) #Execute commmand
 		output = make_connection.channel_connection.makefile('rb, -1').readlines() #Read the lines with paramiko
 		print output # Print the output of the command execution
  
-	if "power_of" == user_action.lower():
+	if "power_of" == welcome.user_action.lower():
 		command = "shutdown -r now"
 
 		yes_no = raw_input("power_of is not a recommended action ...\n (Y/N)")
@@ -116,7 +124,7 @@ def command_execution():
 		if "n" == yes_no.lower():
 			print Fore.REd + 'Goodbye :D'
 
-	if "users_system" == user_action.lower():
+	if "users_system" == welcome.user_action.lower():
 		command = "last"
 		make_connection.channel_connection.exec_command(""+command) #Execute commmand
 		output = make_connection.channel_connection.makefile('rb, -1').readlines() #Read the lines with paramiko
